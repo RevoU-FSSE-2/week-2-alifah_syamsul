@@ -1,17 +1,15 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
-</style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); /* Found this funky font, turns out I like it lol */
 
-/* Reset some default browser styles */
+
 * {
-    box-sizing: border-box;
+    box-sizing: border-box; /* used here to include the padding and border to the actual width & height of all elements */
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: 'Noto Sans', "SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu, Cantarell,"Open Sans","Helvetica Neue", sans-serif;
-    line-height: 1.6;
+    font-family: 'Noto Sans', "SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu, Cantarell,"Open Sans","Helvetica Neue", sans-serif; /* I took this from Linear.app's website, it's so stereotypical 2023 web design */
+    line-height: 1.6; /* used to set the distance between lines of text */
     color: #333;
     background-color: #f4f4f4;
     padding: 10px;
@@ -23,15 +21,27 @@ header {
     background: #333;
     color: #fff;
     text-align: center;
+    margin-bottom: 0;
+    width: auto; /* I use width: auto here to solve the problem of the header being stuck to certain width when I widen the screen */ 
 }
 
 /* Navigation */
+nav {
+    background: #333;
+    padding: auto;
+    position: sticky; /* means the <nav> element will stick to the top of the viewport (browser window) when I scroll down, but remain in its natural position when I scroll up. This is a hybrid between position: relative; and position: fixed; */
+    top: 0;
+    z-index: 10; /*  means the navigation bar will overlay other elements that have a lower z-index. The z-index property in CSS controls the vertical stacking order of elements that overlap. */ 
+    margin-top: 0;
+}
+
 nav ul {
-    display: flex;
-    justify-content: center;
+    display: flex; /* applies a flexible box layout context to the <ul> element, which will align its <li> children in a row (by default). */
+    justify-content: center; /* aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally) */
     background: #333;
     padding: 20px 0;
-    list-style-type: none;
+    margin-top: 0;
+    list-style-type: none; /* removes the bullets that typically appear next to list items. */
 }
 
 nav ul li {
@@ -39,6 +49,42 @@ nav ul li {
 }
 
 nav a {
+    color: #fff;
+    text-decoration: none; /* removes the underline that normally appears under links. */
+}
+
+/* Hamburger menu for mobile */
+.hamburger-menu {
+    display: none; /* hides the hamburger menu by default */
+    width: 30px;
+    height: 22px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.hamburger-menu div {
+    display: none;
+    width: 100%;
+    height: 3px;
+    background-color: #f9f9f9;
+}
+
+/* Navigation list for mobile */
+.nav-list {
+    position: initial;
+    height: initial;
+    width: initial;
+    background: none;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-list li a {
     color: #fff;
     text-decoration: none;
 }
@@ -53,13 +99,13 @@ main {
 
 /* Image Gallery */
 .image-gallery {
-    display: flex;
-    overflow-x: auto;
+    display: flex; /* changes the image gallery to a Flexbox; allows to easily align and distribute space among items in a container, even when their sizes are unknown or dynamic. */
+    overflow-x: auto; /* sets the horizontal overflow behavior of the container; 'auto' means the browser will only provide a scrollbar when necessary (i.e., if the children overflow the parent container in the x-axis) */
     gap: 1em;
 }
 
 .image-gallery figure {
-    flex: 0 0 auto;
+    flex: 0 0 auto; /* shorthand for flex-grow: 0;, flex-shrink: 0;, and flex-basis: auto;. This means the figures won't grow or shrink beyond their original size, and their base size is automatically determined by the content. */
     max-width: 300px;
     height: auto;
 }
@@ -67,6 +113,7 @@ main {
 .image-gallery img {
     width: 100%;
     height: auto;
+    min-height: 300px;
 }
 
 .image-gallery figcaption {
@@ -122,6 +169,7 @@ aside {
     background: grey;
     color: #fff;
     padding: 20px;
+    padding-left: 40px;
     margin-bottom: 20px;
 }
 
@@ -133,7 +181,7 @@ aside a {
 /* Grid wrapper for Videos and Sidebar */
 .grid-wrapper {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* adjust as needed for your design */
+    grid-template-columns: 2fr 1fr;
     gap: 20px;
     padding: 20px;
 }
@@ -247,14 +295,42 @@ footer {
         width: 100%;
     }
 
-    nav ul {
-        flex-direction: column;
-        align-items: center;
+    .nav-list {
+        display: none; /* hide the navigation list in media query */
     }
 
-    nav ul li {
-        margin-bottom: 10px;
+    .hamburger-menu {
+        display: flex; /* shows the hamburger menu on screens that are 768px or less wide */
+        padding-left: 5px;
+        padding-bottom: 5px;
     }
+
+    .hamburger-menu div {
+        display: block; /* shows the hamburger menu lines */
+    }
+
+    .nav-list {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        width: 250px;
+        background: #333;
+        padding: 1em;
+        transition: left 0.5s ease;
+    }
+
+    .nav-list li a {
+        color: #fff;
+    }
+
+    /* Add a class to the nav-list when the hamburger menu is clicked */
+    .nav-list.open { /* used to control the visibility of the navigation menu */
+        left: 0;
+    }
+
+    .grid-wrapper {
+        max-width: 600px;
+    }
+
 }
-
-
